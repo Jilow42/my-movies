@@ -1,39 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-  Col,
-  Container,
-  Row,
-} from 'react-bootstrap';
+  Grid,
+} from '@material-ui/core';
 
-import NavBar from './components/navbar';
-import ListMovies from './components/list-movies';
-import SignIn from './components/sign-in';
-import Advertising from './components/advertising';
+import initialState from './initial-state';
+import Item from './components/item/index';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
 
-const App = () => (
-  <div>
-    <NavBar />
-    <Container>
-      <Row className="mt-4">
-        <Col xs={8}>
-          <ListMovies genre="Aventure" />
-          <hr className="my-4" />
-          <ListMovies genre="Horreur" />
-          <hr className="my-4" />
-          <ListMovies genre="Comédie" />
-        </Col>
-        <Col xs={3}>
-          <SignIn />
-          <hr className="my-4" />
-          <Advertising />
-        </Col>
-      </Row>
-    </Container>
-  </div>
-);
+class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      data: [],
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      data: initialState,
+    });
+  }
+
+  render() {
+    const { data } = this.state;
+
+    return (
+      <Grid container spacing={1}>
+        { data.map((item) => <Item item={item} />)}
+      </Grid>
+    );
+  }
+}
 
 ReactDOM.render(<App />, document.getElementById('app'));
